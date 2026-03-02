@@ -27,7 +27,6 @@ const findUserByEmail = (email) => {
 const createUser = async (user) => {
   const { nombre, apellido, username, email, password, rol_id } = user;
 
-  // Verificar si ya existe username o email
   const existingUsername = findUserByUsername(username);
   if (existingUsername) throw new Error("El username ya está en uso");
 

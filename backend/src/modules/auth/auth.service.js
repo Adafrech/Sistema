@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authModel = require("./auth.model");
 
-// ─── Validadores ────────────────────────────────────────────────
 const validateLoginInput = ({ username, password }) => {
   const errors = [];
 
@@ -54,14 +53,12 @@ const validateRegisterInput = ({
   return errors;
 };
 
-// ─── Login ──────────────────────────────────────────────────────
 const login = async ({ username, password }) => {
   const errors = validateLoginInput({ username, password });
   if (errors.length) throw new Error(errors.join(", "));
 
   const user = authModel.findUserByUsername(username.trim());
 
-  // Mismo mensaje para no revelar si el usuario existe o no
   if (!user) throw new Error("Credenciales inválidas");
 
   const validPassword = await bcrypt.compare(password, user.password_hash);
@@ -90,7 +87,6 @@ const login = async ({ username, password }) => {
   };
 };
 
-// ─── Register ───────────────────────────────────────────────────
 const register = async (userData) => {
   const errors = validateRegisterInput(userData);
   if (errors.length) throw new Error(errors.join(", "));
